@@ -41,28 +41,6 @@ def get_index(teams, value):
     return indexes
 
 
-# home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-# print(home_data, '\n')
-# print(away_data)
-
-def process(filename):
-    data = pd.read_csv(filename)
-    # FTR = full time result
-    X_all = data.drop(['FTR'], axis=1)
-    y_all = data['FTR']
-    X_all = preprocess_features(X_all)
-    # Split into training and testing data
-    X_train, X_test, y_train, y_test = train_test_split(X_all, y_all, test_size=0.1, random_state=42)
-    # Scale continuous data
-    # X_train = np.round(scale(X_train))
-    # X_test = np.round(scale(X_test))
-    # Reshape
-    y_train = y_train.values.reshape((-1, 1))
-    y_test = y_test.values.reshape((-1, 1))
-
-    return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
-
-
 def preprocess_features(X):
     # init new output dataframe
     output = pd.DataFrame(index=X.index)
@@ -76,8 +54,49 @@ def preprocess_features(X):
     return output
 
 
-X_train, X_test, y_train, y_test = process(CURR_SEASON_DATA)
+def process(filename, test_size=None, train_size=None):
+    """
+    Process data into training and testing set.
 
-print(X_train.shape, y_train.shape)
-print(X_test.shape, y_test.shape)
-print(X_test[3])
+    :param filename:
+            The path to the `csv` file which contains the dataset
+    :param test_size: float, int, or None (default is None)
+        If float, should be between 0.0 and 1.0 and represent the
+        proportion of the dataset to include in the test split. If
+        int, represents the absolute number of test samples. If None,
+        the value is automatically set to the complement of the train size.
+        If train size is also None, test size is set to 0.25.
+    :param train_size: float, int, or None (default is None)
+        If float, should be between 0.0 and 1.0 and represent the
+        proportion of the dataset to include in the train split. If
+        int, represents the absolute number of train samples. If None,
+        the value is automatically set to the complement of the test size.
+    :return: X_train, X_test, y_train, y_test
+            `np.ndarray` o
+    """
+    data = pd.read_csv(filename)
+    # FTR = full time result
+    X_all = data.drop(['FTR'], axis=1)
+    y_all = data['FTR']
+    X_all = preprocess_features(X_all)
+    # Split into training and testing data
+    X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
+                                                        test_size=test_size, train_size=train_size,
+                                                        random_state=42, stratify=y_all)
+    # Scale continuous data
+    # X_train = np.round(scale(X_train))
+    # X_test = np.round(scale(X_test))
+    # Reshape
+    y_train = y_train.values.reshape((-1, 1))
+    y_test = y_test.values.reshape((-1, 1))
+
+    return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
+
+
+if __name__ == '__main__':
+    # home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+    # print(home_data, '\n')
+    # print(away_data)
+    X_train, X_test, y_train, y_test = process(CURR_SEASON_DATA)
+    print(X_train.shape, y_train.shape)
+    print(X_test.shape, y_test.shape)
