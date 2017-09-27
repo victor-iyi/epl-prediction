@@ -39,8 +39,6 @@ def get_index(teams, value):
     return indexes
 
 
-# home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-# print(home_data, '\n')
-# print(away_data)
-data = load_data()
-print(data[0].head())
+home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+print(home_data, '\n')
+print(away_data)
