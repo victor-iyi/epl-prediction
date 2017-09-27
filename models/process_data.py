@@ -1,6 +1,7 @@
 import os.path
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import scale
 
 DATASET_DIR = '../datasets/'
 DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
@@ -39,6 +40,43 @@ def get_index(teams, value):
     return indexes
 
 
-home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-print(home_data, '\n')
-print(away_data)
+# home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+# print(home_data, '\n')
+# print(away_data)
+
+def process(filename):
+    data = pd.read_csv(filename)
+    # FTR = full time result
+    X_all = data.drop(['FTR'], axis=1)
+    y_all = data['FTR']
+    # Center to the mean and component wise scale to unit variance
+    # cols = [['HTGD', 'ATGD', 'HTP', 'ATP', 'DiffLP']]
+    # for col in cols:
+    #     X_all[col] = scale(X_all[col])
+
+    # last 3 wins for both sides
+    # X_all.HM1 = X_all.HM1.astype('str')
+    # X_all.HM2 = X_all.HM2.astype('str')
+    # X_all.HM3 = X_all.HM3.astype('str')
+    # X_all.AM1 = X_all.AM1.astype('str')
+    # X_all.AM2 = X_all.AM2.astype('str')
+    # X_all.AM3 = X_all.AM3.astype('str')
+    X_all = preprocess_features(X_all)
+    # X_all = scale(X_all)
+    print(X_all.tail(3))
+
+
+def preprocess_features(X):
+    # init new output dataframe
+    output = pd.DataFrame(index=X.index)
+    # investigate each feature col for data
+    for col, col_data in X.iteritems():
+        # if data is categorical, convert to dummy variables
+        if col_data.dtype == object:
+            col_data = pd.get_dummies(col_data, prefix=col)
+        # collect the converted cols
+        output = output.join(col_data)
+    return output
+
+
+process(CURR_SEASON_DATA)
