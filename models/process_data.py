@@ -82,8 +82,8 @@ def process(filename, test_size=None, train_size=None):
                                                         test_size=test_size, train_size=train_size,
                                                         random_state=42, stratify=y_all)
     # Reshape
-    y_train = y_train.values.reshape((-1, 1))
-    y_test = y_test.values.reshape((-1, 1))
+    # y_train = y_train.values.reshape((-1, 1))
+    # y_test = y_test.values.reshape((-1, 1))
 
     return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
 
