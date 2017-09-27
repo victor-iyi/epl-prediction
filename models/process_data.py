@@ -5,7 +5,6 @@ from sklearn.model_selection import train_test_split
 
 DATASET_DIR = '../datasets/'
 DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
-IMPORTANT_FEATURES = []
 CURR_SEASON_DATA = os.path.join(DATASET_DIR, DATA_FILES[-1])
 
 
