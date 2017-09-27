@@ -9,10 +9,12 @@ CURR_SEASON_DATA = os.path.join(DATASET_DIR, DATA_FILES[-1])
 
 
 def load_data():
+    dataset = []
     for d_file in DATA_FILES:
         d_file = os.path.join(DATASET_DIR, d_file)
-        data1 = pd.read_csv(d_file)
-        print(data1.head())
+        data = pd.read_csv(d_file, skiprows=0)
+        dataset.append(data)
+    return dataset
 
 
 def get_remaining_features(home, away):
@@ -32,14 +34,13 @@ def get_remaining_features(home, away):
 
 
 def get_index(teams, value):
-    indexes = []
-    for i, team in enumerate(teams):
-        value = value.title()
-        if team == value:
-            indexes.append(i)
+    value = value.title()
+    indexes = [i for i, team in enumerate(teams) if team == value]
     return indexes
 
 
-home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-print(home_data, '\n')
-print(away_data)
+# home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+# print(home_data, '\n')
+# print(away_data)
+data = load_data()
+print(data[0].head())
