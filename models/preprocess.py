@@ -7,6 +7,7 @@
 """
 import os.path
 import warnings
+from glob import glob
 
 import numpy as np
 import pandas as pd
@@ -15,8 +16,10 @@ from sklearn.model_selection import train_test_split
 warnings.filterwarnings('ignore')
 
 DATASET_DIR = '../datasets/'
-DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
-CURR_SEASON_DATA = os.path.join(DATASET_DIR, DATA_FILES[-1])
+DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
+# print(DATA_FILES)
+# DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
+CURR_SEASON_DATA = DATA_FILES[-1]
 USELESS_ROWS = ['Referee', 'Div', 'Date', 'HomeTeam', 'AwayTeam']
 
 
@@ -24,9 +27,7 @@ def load_data():
     # dataset = pd.read_csv(CURR_SEASON_DATA)
     # dataset.drop(USELESS_ROWS, axis=1, inplace=True)
     data = []
-    for i, d_file in enumerate(DATA_FILES):
-        print(d_file)
-        d_file = os.path.join(DATASET_DIR, d_file)
+    for d_file in DATA_FILES:
         d = pd.read_csv(d_file)
         d.drop(USELESS_ROWS, axis=1, inplace=True)
         data.append(d)
