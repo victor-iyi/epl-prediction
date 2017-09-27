@@ -39,34 +39,15 @@ def save_classifier(clf, filename=None, force=False):
         f.close()
         print('Successfully saved!')
     else:
-        raise(Exception('File already exist!'))
+        raise (Exception('File already exist!'))
 
 
 if __name__ == '__main__':
     from sklearn.ensemble import AdaBoostClassifier
-    from process_data import process, CURR_SEASON_DATA
-    
-    X_train, X_test, y_train, y_test = process(CURR_SEASON_DATA, test_size=0.1)
-    # LogisticRegression and DecisionTreeClassifier
-    """
-    from sklearn.tree import DecisionTreeClassifier
-    from sklearn.linear_model import LogisticRegression
-    
-    clf = LogisticRegression()
-    train(clf, X_train, y_train)
-    accuracy = test(clf, X_test, y_test)
-    pred = predict(clf, [X_test[0]])
-    print(pred, y_test[0])
-    print('LogisticRegression Accuracy = {:.02%}\n'.format(accuracy))
+    from preprocess import process
 
-    clf = DecisionTreeClassifier()
-    train(clf, X_train, y_train)
-    accuracy = test(clf, X_test, y_test)
-    pred = predict(clf, [X_test[0]])
-    print(pred, y_test[0])
-    print('DecisionTreeClassifier Accuracy = {:.02%}\n'.format(accuracy))
-    """
-
+    # Load all the datasets
+    X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1)
     try:
         clf = AdaBoostClassifier()
         train(clf, X_train, y_train)
@@ -75,9 +56,10 @@ if __name__ == '__main__':
 
         print('\nPred   = {}\nY_test = {}\n\n'.format(pred, y_test.ravel()))
         print('AdaBoostClassifier Accuracy = {:.02%}\n'.format(accuracy))
-        
+
         save_classifier(clf)
     except Exception as e:
         import sys
+
         sys.stderr.write(str(e))
         sys.stderr.flush()

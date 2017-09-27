@@ -1,8 +1,17 @@
+"""
+  @author Victor I. Afolabi
+  A.I. Engineer & Software developer
+  javafolabi@gmail.com
+  Created on 04 September, 2017 @ 9:58 PM.
+  Copyright (c) 2017. Victor. All rights reserved.
+"""
 import os.path
 import pandas as pd
 import numpy as np
+import warnings
 from sklearn.model_selection import train_test_split
-from .preprocess import process_data
+
+warnings.filterwarnings('ignore')
 
 DATASET_DIR = '../datasets/'
 DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
@@ -21,49 +30,32 @@ def load_data():
     return dataset
 
 
-def get_remaining_features(home, away):
-    df = pd.read_csv(CURR_SEASON_DATA)
-    # Home team and Away team
-    home_team = df['HomeTeam'].values
-    away_team = df['AwayTeam'].values
-    # Get the indexes for home and away team
-    home_idx = get_index(home_team.tolist(), home)
-    away_idx = get_index(away_team.tolist(), away)
-    # Drop string columns
-    df.drop(['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTR', 'HTR', 'Referee'], axis=1, inplace=True)
-    # Get rows where the home and away team shows up respectively
-    home_data = df.values[home_idx]
-    away_data = df.values[away_idx]
-    return np.average(home_data, axis=0), np.average(away_data, axis=0)
-
-
-def get_index(teams, value):
-    value = value.title()
-    indexes = [i for i, team in enumerate(teams) if team == value]
-    return indexes
-
-
-def preprocess_features(X):
-    # init new output dataframe
+def process_data(df):
     """
-    Cleans up any non-numeric data.
+    Processes a dataframe in order to handle for non-numeric data
 
-    :param X:
-        Features to be cleaned.
-
-    :return: output `pd.DataFrame`
-        A new pandas DataFrame object with clean numeric values.
+    :type df: pd.DataFrame
+    :param df:
+            the dataframe containing the data
+    :return df: pd.DataFrame
+            Clean numeric DataFrame object
     """
-    output = pd.DataFrame(index=X.index)
-    # investigate each feature col for data
-    for col, col_data in X.iteritems():
-        # if data is categorical, convert to dummy variables
-        if col_data.dtype == object:
-            print('obj lets get dummies')
-            col_data = pd.get_dummies(col_data, prefix=col)
-        # collect the converted cols
-        output = output.join(col_data)
-    return output
+    columns = df.columns.values
+
+    def convert(val):
+        return text_digit[val]
+
+    for col in columns:
+        text_digit = {}  # {"Female": 0}
+        if df[col].dtype != np.int64 and df[col].dtype != np.float64:
+            uniques = set(df[col].values.tolist())
+            x = 0
+            for unique in uniques:
+                if unique not in text_digit:
+                    text_digit[unique] = x
+                    x += 1
+            df[col] = list(map(convert, df[col]))
+    return df
 
 
 def process(filename=None, test_size=None, train_size=None):
@@ -91,7 +83,6 @@ def process(filename=None, test_size=None, train_size=None):
         data = pd.read_csv(filename)
     else:
         data = load_data()
-    print(data.columns.values)
     # FTR = full time result
     X_all = data.drop(['FTR'], axis=1)
     y_all = data['FTR']
@@ -103,12 +94,11 @@ def process(filename=None, test_size=None, train_size=None):
     return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
 
 
-if __name__ == '__main__':
-    # home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-    # print(home_data, '\n')
-    # print(away_data)
-    # data = load_data()
-    # print(data.tail(3))
+def main():
     X_train, X_test, y_train, y_test = process(filename=None)
     print(X_train.shape, y_train.shape)
     print(X_test.shape, y_test.shape)
+
+
+if __name__ == '__main__':
+    main()
