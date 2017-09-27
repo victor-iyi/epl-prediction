@@ -3,6 +3,8 @@ import pickle
 import os.path
 
 SAVE_DIR = 'trained'
+if not os.path.isdir(SAVE_DIR):
+    os.makedirs(SAVE_DIR)
 
 
 def train(clf, X_train, y_train):
@@ -26,14 +28,18 @@ def train_predict(clf, X_train, y_train, X):
     return predict(clf, X)
 
 
-def save_classifier(clf, filename=None):
+def save_classifier(clf, filename=None, force=False):
     if not filename:
         model_name = str(clf)
         filename = model_name[:model_name.index('(')]
     filename = os.path.join(SAVE_DIR, '{}.pkl'.format(filename))
-    f = open(filename, 'wb')
-    pickle.dump(clf, f)
-    f.close()
+    if force or not os.path.exists(filename):
+        f = open(filename, 'wb')
+        pickle.dump(clf, f)
+        f.close()
+        print('Successfully saved!')
+    else:
+        print('File already exist!')
 
 
 if __name__ == '__main__':
@@ -66,4 +72,4 @@ if __name__ == '__main__':
     print(pred, y_test[0])
     print('AdaBoostClassifier Accuracy = {:.02%}\n'.format(accuracy))
 
-    save_classifier(clf)
+    save_classifier(clf, force=True)
