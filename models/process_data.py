@@ -1,7 +1,6 @@
 import os.path
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import scale
 from sklearn.model_selection import train_test_split
 
 DATASET_DIR = '../datasets/'
@@ -83,9 +82,6 @@ def process(filename, test_size=None, train_size=None):
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,
                                                         random_state=42, stratify=y_all)
-    # Scale continuous data
-    # X_train = np.round(scale(X_train))
-    # X_test = np.round(scale(X_test))
     # Reshape
     y_train = y_train.values.reshape((-1, 1))
     y_test = y_test.values.reshape((-1, 1))
