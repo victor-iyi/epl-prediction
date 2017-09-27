@@ -28,7 +28,7 @@ def get_remaining_features(home, away):
     # Get rows where the home and away team shows up respectively
     home_data = df.values[home_idx]
     away_data = df.values[away_idx]
-    return home_data, away_data
+    return np.average(home_data, axis=0), np.average(away_data, axis=0)
 
 
 def get_index(teams, value):
@@ -40,4 +40,6 @@ def get_index(teams, value):
     return indexes
 
 
-get_remaining_features(home='arsenal', away='chelsea')
+home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+print(home_data, '\n')
+print(away_data)
