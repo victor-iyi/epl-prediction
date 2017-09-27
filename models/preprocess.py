@@ -6,9 +6,10 @@
   Copyright (c) 2017. Victor. All rights reserved.
 """
 import os.path
-import pandas as pd
-import numpy as np
 import warnings
+
+import numpy as np
+import pandas as pd
 from sklearn.model_selection import train_test_split
 
 warnings.filterwarnings('ignore')
@@ -20,17 +21,20 @@ USELESS_ROWS = ['Referee', 'Div', 'Date', 'HomeTeam', 'AwayTeam']
 
 
 def load_data():
-    dataset = pd.read_csv(CURR_SEASON_DATA)
-    dataset.drop(USELESS_ROWS, axis=1, inplace=True)
-    for d_file in DATA_FILES[:-1]:
+    # dataset = pd.read_csv(CURR_SEASON_DATA)
+    # dataset.drop(USELESS_ROWS, axis=1, inplace=True)
+    data = []
+    for i, d_file in enumerate(DATA_FILES):
+        print(d_file)
         d_file = os.path.join(DATASET_DIR, d_file)
-        data = pd.read_csv(d_file)
-        data.drop(USELESS_ROWS, axis=1, inplace=True)
-        dataset = pd.concat([dataset, data])
+        d = pd.read_csv(d_file)
+        d.drop(USELESS_ROWS, axis=1, inplace=True)
+        data.append(d)
+    dataset = pd.concat(data)
     return dataset
 
 
-def process_data(df):
+def handle_non_numeric(df):
     """
     Processes a dataframe in order to handle for non-numeric data
 
@@ -86,7 +90,9 @@ def process(filename=None, test_size=None, train_size=None):
     # FTR = full time result
     X_all = data.drop(['FTR'], axis=1)
     y_all = data['FTR']
-    X_all = process_data(X_all)
+    X_all = handle_non_numeric(X_all)
+    X_all.fillna(0, inplace=True)  # because the model is seeing some NaN values
+    # X_all.to_csv('X_all.csv')
     # Split into training and testing data
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,
