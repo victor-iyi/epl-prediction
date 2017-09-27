@@ -151,6 +151,7 @@ cmake-build-debug/
 
 # IntelliJ
 out/
+.idea
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -202,5 +203,3 @@ Temporary Items
 
 ### Dataset
 datasets/
-.idea/epl-prediction.iml
-.idea/modules.xml
