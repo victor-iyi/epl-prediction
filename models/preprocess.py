@@ -19,10 +19,16 @@ warnings.filterwarnings('ignore')
 DATASET_DIR = '../datasets/'
 SAVE_CSV_PATH = os.path.join(DATASET_DIR, 'combined/epl-no-labels.csv')
 DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
+CURR_SEASON_FILE = DATA_FILES[-1]
 USELESS_ROWS = ['Div', 'Date', 'Referee']
 
 
-def load_data():
+def load_data(filename=None):
+    if filename:
+        data = pd.read_csv(filename)
+        data.drop(USELESS_ROWS, axis=1, inplace=True)
+        return data
+    # !- Loop through all data files
     data = []
     for d_file in DATA_FILES:
         d = pd.read_csv(d_file)
@@ -32,21 +38,16 @@ def load_data():
     return dataset
 
 
-def get_x_team(home_or_away):
-    pd.read_csv()
-
-
 def process_to_features(home, away):
-    df = pd.read_csv(SAVE_CSV_PATH)
+    df = load_data(CURR_SEASON_FILE)
     # !- Home team and Away team
     home_team = df['HomeTeam'].values
     away_team = df['AwayTeam'].values
+    df = handle_non_numeric(df)
+    # df.drop(['HomeTeam', 'AwayTeam', 'FTR', 'HTR'], axis=1, inplace=True)
     # !- Get the indexes for home and away team
     home_idx = get_index(home_team.tolist(), home)
     away_idx = get_index(away_team.tolist(), away)
-    # !- Drop string columns
-    # df.drop(['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTR', 'HTR', 'Referee'], axis=1, inplace=True)
-    df.drop(USELESS_ROWS, axis=1, inplace=True)
     # !- Get rows where the home and away team shows up respectively
     home_data = df.values[home_idx]
     away_data = df.values[away_idx]
@@ -111,10 +112,7 @@ def process(filename=None, test_size=None, train_size=None, save_csv=False):
     :return: X_train, X_test, y_train, y_test
             `np.ndarray` o
     """
-    if filename:
-        data = pd.read_csv(filename)
-    else:
-        data = load_data()
+    data = load_data(filename)
     # !- FTR = full time result
     X_all = data.drop(['FTR'], axis=1)
     y_all = data['FTR']
@@ -124,17 +122,19 @@ def process(filename=None, test_size=None, train_size=None, save_csv=False):
     # !- Save processed data to csv
     if save_csv:
         X_all.to_csv(SAVE_CSV_PATH)
-    # !- Split into training and testing data
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,
                                                         random_state=42, stratify=y_all)
+    # !- Split into training and testing data
     return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
 
 
 def main():
-    X_train, X_test, y_train, y_test = process(filename=None, save_csv=True)
-    print(X_train.shape, y_train.shape)
-    print(X_test.shape, y_test.shape)
+    # X_train, X_test, y_train, y_test = process(filename=None, save_csv=False)
+    # print(X_train.shape, y_train.shape)
+    # print(X_test.shape, y_test.shape)
+    team_h, team_a = process_to_features(home='arsenal', away='chelsea')
+    print(team_h, team_a)
 
 
 if __name__ == '__main__':

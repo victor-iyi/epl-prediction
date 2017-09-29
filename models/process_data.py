@@ -2,7 +2,7 @@ import os.path
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from .preprocess import process_data
+import preprocess
 
 DATASET_DIR = '../datasets/'
 DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
@@ -95,7 +95,7 @@ def process(filename=None, test_size=None, train_size=None):
     # FTR = full time result
     X_all = data.drop(['FTR'], axis=1)
     y_all = data['FTR']
-    X_all = process_data(X_all)
+    X_all = preprocess.process_data(X_all)
     # Split into training and testing data
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,
@@ -104,11 +104,11 @@ def process(filename=None, test_size=None, train_size=None):
 
 
 if __name__ == '__main__':
-    # home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
-    # print(home_data, '\n')
-    # print(away_data)
+    home_data, away_data = get_remaining_features(home='arsenal', away='chelsea')
+    print(home_data, '\n')
+    print(away_data)
     # data = load_data()
     # print(data.tail(3))
-    X_train, X_test, y_train, y_test = process(filename=None)
-    print(X_train.shape, y_train.shape)
-    print(X_test.shape, y_test.shape)
+    # X_train, X_test, y_train, y_test = process(filename=None)
+    # print(X_train.shape, y_train.shape)
+    # print(X_test.shape, y_test.shape)

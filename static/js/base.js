@@ -10,7 +10,7 @@ new Vue({
   },
   computed : {
     modalOpen : function(){
-      return this.result.length > 0 ? false : true;
+      return this.result.length <= 0;
     }
   }
 });
