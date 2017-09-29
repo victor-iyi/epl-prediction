@@ -16,10 +16,10 @@ from sklearn.model_selection import train_test_split
 warnings.filterwarnings('ignore')
 
 # !- constants
-DATASET_DIR = '../datasets/'
+DATASET_DIR = 'datasets/'
 SAVE_CSV_PATH = os.path.join(DATASET_DIR, 'combined/epl-no-labels.csv')
 DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
-CURR_SEASON_FILE = glob(os.path.join(DATASET_DIR, '*.csv'))[-1]
+CURR_SEASON_FILE = DATA_FILES[-1]
 USELESS_ROWS = ['Div', 'Date', 'Referee']
 
 
@@ -29,13 +29,13 @@ def load_data(filename=None):
         data.drop(USELESS_ROWS, axis=1, inplace=True)
         return data
     # !- Loop through all data files
-    data = []
+    datasets = []
     for d_file in DATA_FILES:
         d = pd.read_csv(d_file)
         d.drop(USELESS_ROWS, axis=1, inplace=True)
-        data.append(d)
-    dataset = pd.concat(data)
-    return dataset
+        datasets.append(d)
+    datasets = pd.concat(datasets)
+    return datasets
 
 
 def get_all_teams():
@@ -45,7 +45,7 @@ def get_all_teams():
 
 
 def process_to_features(home, away):
-    df = load_data(CURR_SEASON_FILE)
+    df = load_data()
     df.drop(['FTR'], axis=1, inplace=True)
     # !- Home team and Away team
     home_team = df['HomeTeam'].values
