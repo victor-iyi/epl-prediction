@@ -12,6 +12,7 @@ CLF_PATH = 'models/trained/AdaBoostClassifier.pkl'
 @app.route('/', methods=['GET', 'POST'])
 def index():
     all_teams = get_all_teams()
+    print(all_teams)
     return render_template('index.html', all_teams=all_teams)
 
 
