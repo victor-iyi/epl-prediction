@@ -38,8 +38,15 @@ def load_data(filename=None):
     return dataset
 
 
+def get_all_teams():
+    df = load_data()
+    all_teams = df['HomeTeam'].values.tolist() + df['AwayTeam'].values.tolist()
+    return sorted(list(set(all_teams)))
+
+
 def process_to_features(home, away):
     df = load_data(CURR_SEASON_FILE)
+    df.drop(['FTR'], axis=1, inplace=True)
     # !- Home team and Away team
     home_team = df['HomeTeam'].values
     away_team = df['AwayTeam'].values
@@ -133,8 +140,10 @@ def main():
     # X_train, X_test, y_train, y_test = process(filename=None, save_csv=False)
     # print(X_train.shape, y_train.shape)
     # print(X_test.shape, y_test.shape)
-    team_h, team_a = process_to_features(home='arsenal', away='chelsea')
-    print(team_h, team_a)
+    # team_h, team_a = process_to_features(home='arsenal', away='chelsea')
+    # print(team_h, team_a)
+    all_teams = get_all_teams()
+    print(all_teams)
 
 
 if __name__ == '__main__':

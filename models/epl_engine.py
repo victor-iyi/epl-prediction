@@ -42,27 +42,34 @@ def save_classifier(clf, filename=None, force=False):
         raise (Exception('File already exist!'))
 
 
-if __name__ == '__main__':
+def main():
     from sklearn.ensemble import AdaBoostClassifier
-    from .preprocess import process
+    from preprocess import process, process_to_features
 
     # Load all the datasets
-    X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1)
-    # print('Training: ', X_train.shape, y_train.shape)
-    # print('Testing:  ', X_test.shape, y_test.shape)
+    home_team = 'arsenal'
+    away_team = 'stoke'
 
+    X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1, save_csv=True)
+    pred_features = process_to_features(home=home_team, away=away_team)
+    print('Training: ', X_train.shape, y_train.shape)
+    print('Testing:  ', X_test.shape, y_test.shape)
     try:
         clf = AdaBoostClassifier(n_estimators=500, learning_rate=1e-2)
         train(clf, X_train, y_train)
         accuracy = test(clf, X_test, y_test)
-        pred = predict(clf, X_test)
+        pred = predict(clf, pred_features)
 
-        # print('\nPred   = {}\nY_test = {}\n\n'.format(pred, y_test.ravel()))
         print('Soccer prediction accuracy = {:.02%}\n'.format(accuracy))
+        print('Prediction: ', pred)
 
-        save_classifier(clf)
+        save_classifier(clf, force=True)
     except Exception as e:
         import sys
 
         sys.stderr.write(str(e))
         sys.stderr.flush()
+
+
+if __name__ == '__main__':
+    main()
