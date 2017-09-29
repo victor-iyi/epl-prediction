@@ -1,0 +1,114 @@
+body {
+  background-color: #080003;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif; }
+
+.page-container {
+  text-align: center; }
+  .page-container h3.page-title {
+    font-size: 54px;
+    margin: 10px 0; }
+  .page-container .form {
+    margin-top: 140px; }
+  .page-container select {
+    padding: 10px;
+    font-size: 18px;
+    background: #000;
+    border: 1px solid #ff0052;
+    color: #fff;
+    margin: 20px;
+    width: 30%; }
+    .page-container select:-internal-list-box {
+      border: 0;
+      background-color: #ff0052;
+      color: white; }
+  .page-container button {
+    background: #ff0052;
+    padding: 10px;
+    font-size: 24px;
+    color: white;
+    margin: 20px;
+    width: 200px;
+    border: 0; }
+  .page-container .credits {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center; }
+    .page-container .credits a {
+      color: inherit; }
+      .page-container .credits a:hover, .page-container .credits a:visited,
+      .page-container .credits a :focus {
+        color: inherit; }
+
+.modal {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 3;
+  transition: all 0.3 ease-in-out;
+  visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease-in-out; }
+  .modal.open {
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+    opacity: 1; }
+    .modal.open .modal-content {
+      transition: all 0.3s ease-in-out;
+      opacity: 1;
+      transform: scale(1); }
+  .modal .modal-content {
+    transition: all 0.3s ease-in-out;
+    transform: scale(0.7);
+    opacity: 0;
+    width: 90%;
+    margin: auto;
+    height: 40%;
+    background: white;
+    margin-top: 4%;
+    position: relative;
+    box-shadow: 1px 1px 40px 0px rgba(148, 0, 48, 0.56); }
+    .modal .modal-content .header {
+      height: 30%;
+      background: #ff0052;
+      position: relative; }
+      .modal .modal-content .header h3 {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        margin: auto;
+        width: 100%; }
+      .modal .modal-content .header .close {
+        text-decoration: none;
+        color: white;
+        font-weight: bolder;
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        font-size: 16px; }
+        .modal .modal-content .header .close:hover, .modal .modal-content .header .close:visited, .modal .modal-content .header .close:focus {
+          text-decoration: none; }
+    .modal .modal-content .body {
+      height: 70%;
+      padding: 20px; }
+      .modal .modal-content .body h1 {
+        font-size: 6em;
+        margin: 0;
+        text-align: center; }
+        .modal .modal-content .body h1.win {
+          color: lightseagreen; }
+        .modal .modal-content .body h1.draw {
+          color: darkgray; }
+
+@media (min-width: 911px) {
+  .modal .modal-content {
+    width: 40%; } }
+
+/*# sourceMappingURL=base.css.map */

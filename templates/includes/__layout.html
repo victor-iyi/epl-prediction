@@ -1,20 +1,37 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>EPL Prediction</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  </head>
-  <body>
-    <header class="main-header">
-      Top header
-    </header>
-    <section class="container">
-      {% block body %}
-      {% endblock %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EPL Match Predictor</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+
+<body>
+    <section class="container ">
+        {% block body %} {% endblock %}
     </section>
-    <footer class="main-footer">
-      <p>Copyright &copy; 2017. <a href="">Victor</a> &amp; <a href="">Tomiiide</a>. All rights reserved.</p>
-    </footer>
-  </body>
+    <div class="credits">
+        Created with love by <a href="#">victor</a> & <a href="#">tomiiide</a>
+    </div>
+    <div class="modal" v-bind:class="{open:result.length>0}">
+        <div class="modal-content">
+            <div class="header">
+                <a href="#" class="close" @click.prevent="result = ''">x</a>
+                <h3>Home Team Wins</h3>
+            </div>
+            <div class="body">
+                <h1 class="win">W</h1>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+</body>
+
 </html>

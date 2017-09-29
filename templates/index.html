@@ -1,4 +1,19 @@
-{% extends "./includes/__layout.html" %}
-{% block body %}
-  <p>Hello, from the index page.</p>
-{% endblock %}
+{% extends "./includes/__layout.html" %} {% block body %}
+
+<body>
+    <div class="page-container">
+        <h3 class="page-title">EPL</h3>
+
+        <div class="form">
+            <h4 class="sub">Select two teams to predict who will win.</h4>
+            <div>
+                <select name="" id=""><option class="hidden">Home team</option></select>
+                <span>vs</span>
+                <select name="" id=""><option class="hidden">Away team</option></select>
+            </div>
+
+            <button @click.prevent="result = 'W'">Predict</button>
+        </div>
+
+
+        {% endblock %}

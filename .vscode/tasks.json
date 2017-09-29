@@ -1,0 +1,7 @@
+{
+    "version": "0.1.0",
+    "command": "sass",
+    "isShellCommand": true,
+    "args": ["--watch", "assets/scss:assets/css"],
+    "showOutput": "always"
+}
