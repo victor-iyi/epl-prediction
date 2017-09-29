@@ -4,14 +4,14 @@
     <h4 class="sub">Select two teams to predict who will win.</h4>
     <div>
         <select name="" title="Home team" v-model="home_team">
-        <option class="hidden">Home team</option>
+        <option class="hidden" value="">Home team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>
         {% endfor %}
       </select>
         <span>vs</span>
         <select name="" title="Away team" v-model="away_team">
-        <option class="hidden">Away team</option>
+        <option class="hidden" value="">Away team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>
         {% endfor %}
@@ -25,10 +25,10 @@
     <div class="modal-content">
         <div class="header">
             <a href="#" class="close" @click.prevent="result = ''">x</a>
-            <h3>Home Team Wins</h3>
+            <h3 v-text="winner"></h3>
         </div>
         <div class="body">
-            <h1 class="win">W</h1>
+            <h1 v-bind:class="{win : result === 'H' || 'A' }" v-text="winnerletter"></h1>
         </div>
     </div>
 </div>
