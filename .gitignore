@@ -202,4 +202,7 @@ Temporary Items
 !.vscode/extensions.json
 
 ### Dataset
+datasets/
 trained/
+/.vscode
+/.sass-cache

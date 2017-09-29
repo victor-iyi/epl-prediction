@@ -1,0 +1,144 @@
+@import 'vars';
+body {
+    background-color: #080003;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.page-container {
+    text-align: center;
+    h3.page-title {
+        font-size: 54px;
+        margin: 10px 0;
+    }
+    h4 {}
+    .form {
+        margin-top: 140px;
+    }
+    select {
+        padding: 10px;
+        font-size: 18px;
+        background: #000;
+        border: 1px solid $fuschia;
+        color: #fff;
+        margin: 20px;
+        width: 30%;
+        &:-internal-list-box {
+            border: 0;
+            background-color: $fuschia;
+            color: white;
+        }
+    }
+    button {
+        background: $fuschia;
+        padding: 10px;
+        font-size: 24px;
+        color: white;
+        margin: 20px;
+        width: 200px;
+        border: 0;
+    }
+}
+
+.credits {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    a {
+        color: inherit;
+        &:hover,
+        &:visited,
+         :focus {
+            color: inherit;
+        }
+    }
+}
+
+.modal {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 3;
+    transition: all 0.3 ease-in-out;
+    visibility: hidden;
+    backface-visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    &.open {
+        visibility: visible;
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        .modal-content {
+            transition: all 0.3s ease-in-out;
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    .modal-content {
+        transition: all 0.3s ease-in-out;
+        transform: scale(0.7);
+        opacity: 0;
+        width: 90%;
+        margin: auto;
+        height: 40%;
+        background: white;
+        margin-top: 4%;
+        position: relative;
+        box-shadow: 1px 1px 40px 0px rgba(148, 0, 48, 0.56);
+        .header {
+            height: 30%;
+            background: $fuschia;
+            position: relative;
+            h3 {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                margin: auto;
+                width: 100%;
+            }
+            .close {
+                text-decoration: none;
+                color: white;
+                font-weight: bolder;
+                position: absolute;
+                top: 12px;
+                right: 16px;
+                font-size: 16px;
+                &:hover,
+                &:visited,
+                &:focus {
+                    text-decoration: none;
+                }
+            }
+        }
+        .body {
+            height: 70%;
+            padding: 20px;
+            h1 {
+                &.win {
+                    color: lightseagreen;
+                }
+                &.draw {
+                    color: darkgray;
+                }
+                font-size: 6em;
+                margin: 0;
+                text-align: center;
+            }
+        }
+    }
+}
+
+@media(min-width: 911px) {
+    .modal {
+        .modal-content {
+            width: 40%;
+        }
+    }
+}
