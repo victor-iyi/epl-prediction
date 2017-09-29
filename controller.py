@@ -7,6 +7,7 @@ from models.epl_engine import predict
 from models.preprocess import get_all_teams, process_to_features
 
 app = Flask(__name__)
+# !- Model trained model
 CLF_PATH = os.path.join('models/trained/', 'AdaBoostClassifier.pkl')
 
 
@@ -18,6 +19,7 @@ def index():
 
 @app.route('/__predict', methods=['POST'])
 def __predict():
+    # !- Server response
     data = {
         'status': False,
         'response': {
