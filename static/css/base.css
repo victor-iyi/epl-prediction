@@ -32,16 +32,17 @@ body {
     margin: 20px;
     width: 200px;
     border: 0; }
-  .page-container .credits {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center; }
-    .page-container .credits a {
+
+.credits {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center; }
+  .credits a {
+    color: inherit; }
+    .credits a:hover, .credits a:visited,
+    .credits a :focus {
       color: inherit; }
-      .page-container .credits a:hover, .page-container .credits a:visited,
-      .page-container .credits a :focus {
-        color: inherit; }
 
 .modal {
   position: fixed;
