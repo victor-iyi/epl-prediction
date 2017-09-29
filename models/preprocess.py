@@ -15,17 +15,14 @@ from sklearn.model_selection import train_test_split
 
 warnings.filterwarnings('ignore')
 
+# !- constants
 DATASET_DIR = '../datasets/'
 DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
-# print(DATA_FILES)
-# DATA_FILES = ['epl-2015-2016.csv', 'epl-2016-2017.csv', 'epl-2017-2018.csv']
 CURR_SEASON_DATA = DATA_FILES[-1]
-USELESS_ROWS = ['Referee', 'Div', 'Date', 'HomeTeam', 'AwayTeam']
+USELESS_ROWS = ['Div', 'Date', 'Referee']
 
 
 def load_data():
-    # dataset = pd.read_csv(CURR_SEASON_DATA)
-    # dataset.drop(USELESS_ROWS, axis=1, inplace=True)
     data = []
     for d_file in DATA_FILES:
         d = pd.read_csv(d_file)
@@ -33,6 +30,34 @@ def load_data():
         data.append(d)
     dataset = pd.concat(data)
     return dataset
+
+
+def get_x_team(home_or_away):
+    pd.read_csv()
+
+
+def process_to_features(home, away):
+    df = pd.read_csv(CURR_SEASON_DATA)
+    # !- Home team and Away team
+    home_team = df['HomeTeam'].values
+    away_team = df['AwayTeam'].values
+    # !- Get the indexes for home and away team
+    home_idx = get_index(home_team.tolist(), home)
+    away_idx = get_index(away_team.tolist(), away)
+    # !- Drop string columns
+    # df.drop(['Div', 'Date', 'HomeTeam', 'AwayTeam', 'FTR', 'HTR', 'Referee'], axis=1, inplace=True)
+    df.drop(USELESS_ROWS, axis=1, inplace=True)
+    # !- Get rows where the home and away team shows up respectively
+    home_data = df.values[home_idx]
+    away_data = df.values[away_idx]
+    # !- Find the average across all records and return
+    return np.average(home_data, axis=0), np.average(away_data, axis=0)
+
+
+def get_index(teams, value):
+    value = value.title()
+    indexes = [i for i, team in enumerate(teams) if team == value]
+    return indexes
 
 
 def handle_non_numeric(df):
@@ -63,7 +88,7 @@ def handle_non_numeric(df):
     return df
 
 
-def process(filename=None, test_size=None, train_size=None):
+def process(filename=None, test_size=None, train_size=None, save_csv=False):
     """
     Process data into training and testing set.
 
@@ -81,6 +106,8 @@ def process(filename=None, test_size=None, train_size=None):
         proportion of the dataset to include in the train split. If
         int, represents the absolute number of train samples. If None,
         the value is automatically set to the complement of the test size.
+    :param save_csv: bool (default is False)
+        Save the processed file into a csv file.
     :return: X_train, X_test, y_train, y_test
             `np.ndarray` o
     """
@@ -93,7 +120,9 @@ def process(filename=None, test_size=None, train_size=None):
     y_all = data['FTR']
     X_all = handle_non_numeric(X_all)
     X_all.fillna(0, inplace=True)  # because the model is seeing some NaN values
-    # X_all.to_csv('X_all.csv')
+    # Save processed data to csv
+    if save_csv:
+        X_all.to_csv('X_all.csv')
     # Split into training and testing data
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,

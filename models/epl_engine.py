@@ -44,7 +44,7 @@ def save_classifier(clf, filename=None, force=False):
 
 if __name__ == '__main__':
     from sklearn.ensemble import AdaBoostClassifier
-    from preprocess import process
+    from .preprocess import process
 
     # Load all the datasets
     X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1)
