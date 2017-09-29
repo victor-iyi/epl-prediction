@@ -205,3 +205,4 @@ Temporary Items
 datasets/
 trained/
 /.vscode
+/.sass-cache
