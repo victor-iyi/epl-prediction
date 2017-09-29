@@ -200,6 +200,4 @@ Temporary Items
 #!.vscode/extensions.json
 
 ### Dataset
-datasets/
-trained/
 .sass-cache
