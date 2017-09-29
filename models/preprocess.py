@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 
 # !- constants
 DATASET_DIR = '../datasets/'
-SAVE_CSV_PATH = os.path.join(DATASET_DIR, '/combined/epl-no-labels.csv')
+SAVE_CSV_PATH = os.path.join(DATASET_DIR, 'combined/epl-no-labels.csv')
 DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
 USELESS_ROWS = ['Div', 'Date', 'Referee']
 
