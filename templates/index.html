@@ -3,14 +3,14 @@
 <div class="form" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <h4 class="sub">Select two teams to predict who will win.</h4>
     <div>
-      <select name="" title="Home team">
+        <select name="" title="Home team" v-model="home_team">
         <option class="hidden">Home team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>
         {% endfor %}
       </select>
-      <span>vs</span>
-      <select name="" title="Away team">
+        <span>vs</span>
+        <select name="" title="Away team" v-model="away_team">
         <option class="hidden">Away team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>
@@ -18,19 +18,19 @@
       </select>
     </div>
 
-    <button @click.prevent="result = 'W'">Predict</button>
-  </div>
+    <button @click.prevent="predict">Predict</button>
+</div>
 
-  <div class="modal" v-bind:class="{open:result.length>0}">
+<div class="modal" v-bind:class="{open:result.length>0}">
     <div class="modal-content">
-      <div class="header">
-        <a href="#" class="close" @click.prevent="result = ''">x</a>
-        <h3>Home Team Wins</h3>
-      </div>
-      <div class="body">
-        <h1 class="win">W</h1>
-      </div>
+        <div class="header">
+            <a href="#" class="close" @click.prevent="result = ''">x</a>
+            <h3>Home Team Wins</h3>
+        </div>
+        <div class="body">
+            <h1 class="win">W</h1>
+        </div>
     </div>
-  </div>
+</div>
 
-  {% endblock %}
+{% endblock %}
