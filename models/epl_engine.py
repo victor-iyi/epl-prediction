@@ -44,12 +44,12 @@ def save_classifier(clf, filename=None, force=False):
 
 if __name__ == '__main__':
     from sklearn.ensemble import AdaBoostClassifier
-    from .preprocess import process
+    from preprocess import process
 
     # Load all the datasets
-    X_train, X_test, y_train, y_test = process(filename=None, test_size=None)
-    print('Training: ', X_train.shape, y_train.shape)
-    print('Testing:  ', X_test.shape, y_test.shape)
+    X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1)
+    # print('Training: ', X_train.shape, y_train.shape)
+    # print('Testing:  ', X_test.shape, y_test.shape)
 
     try:
         clf = AdaBoostClassifier(n_estimators=500, learning_rate=1e-2)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         pred = predict(clf, X_test)
 
         # print('\nPred   = {}\nY_test = {}\n\n'.format(pred, y_test.ravel()))
-        print('AdaBoostClassifier Accuracy = {:.02%}\n'.format(accuracy))
+        print('Soccer prediction accuracy = {:.02%}\n'.format(accuracy))
 
         save_classifier(clf)
     except Exception as e:
