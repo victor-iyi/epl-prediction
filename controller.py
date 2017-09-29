@@ -1,10 +1,10 @@
-import pickle
 import os.path
+import pickle
 
 from flask import Flask, render_template, request, jsonify
-# from models.preprocess import get_all_teams
-from models.preprocess import get_all_teams, process_to_features
+
 from models.epl_engine import predict
+from models.preprocess import get_all_teams, process_to_features
 
 app = Flask(__name__)
 CLF_PATH = os.path.join('models/trained/', 'AdaBoostClassifier.pkl')
@@ -12,7 +12,6 @@ CLF_PATH = os.path.join('models/trained/', 'AdaBoostClassifier.pkl')
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # all_teams = get_all_teams()
     all_teams = get_all_teams()
     return render_template('index.html', all_teams=all_teams)
 
