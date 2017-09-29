@@ -17,8 +17,8 @@ warnings.filterwarnings('ignore')
 
 # !- constants
 DATASET_DIR = '../datasets/'
+SAVE_CSV_PATH = os.path.join(DATASET_DIR, '/combined/epl-no-labels.csv')
 DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
-CURR_SEASON_DATA = DATA_FILES[-1]
 USELESS_ROWS = ['Div', 'Date', 'Referee']
 
 
@@ -37,7 +37,7 @@ def get_x_team(home_or_away):
 
 
 def process_to_features(home, away):
-    df = pd.read_csv(CURR_SEASON_DATA)
+    df = pd.read_csv(SAVE_CSV_PATH)
     # !- Home team and Away team
     home_team = df['HomeTeam'].values
     away_team = df['AwayTeam'].values
@@ -115,15 +115,16 @@ def process(filename=None, test_size=None, train_size=None, save_csv=False):
         data = pd.read_csv(filename)
     else:
         data = load_data()
-    # FTR = full time result
+    # !- FTR = full time result
     X_all = data.drop(['FTR'], axis=1)
     y_all = data['FTR']
+    # !- Clean out non numeric data
     X_all = handle_non_numeric(X_all)
     X_all.fillna(0, inplace=True)  # because the model is seeing some NaN values
-    # Save processed data to csv
+    # !- Save processed data to csv
     if save_csv:
-        X_all.to_csv('X_all.csv')
-    # Split into training and testing data
+        X_all.to_csv(SAVE_CSV_PATH)
+    # !- Split into training and testing data
     X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
                                                         test_size=test_size, train_size=train_size,
                                                         random_state=42, stratify=y_all)
@@ -131,7 +132,7 @@ def process(filename=None, test_size=None, train_size=None, save_csv=False):
 
 
 def main():
-    X_train, X_test, y_train, y_test = process(filename=None)
+    X_train, X_test, y_train, y_test = process(filename=None, save_csv=True)
     print(X_train.shape, y_train.shape)
     print(X_test.shape, y_test.shape)
 
