@@ -1,7 +1,0 @@
-{
-    "version": "0.1.0",
-    "command": "sass",
-    "isShellCommand": true,
-    "args": ["--watch", "static/scss:static/css"],
-    "showOutput": "always"
-}
