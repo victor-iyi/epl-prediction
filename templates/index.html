@@ -1,20 +1,16 @@
 {% extends "./includes/__layout.html" %} {% block body %}
 
-<body xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<div class="page-container">
-  <h3 class="page-title">EPL</h3>
-
-  <div class="form">
+<div class="form" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <h4 class="sub">Select two teams to predict who will win.</h4>
     <div>
-      <select name="" id="">
+      <select name="" title="Home team">
         <option class="hidden">Home team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>
         {% endfor %}
       </select>
       <span>vs</span>
-      <select name="" id="">
+      <select name="" title="Away team">
         <option class="hidden">Away team</option>
         {% for team in all_teams %}
           <option value="{{ team }}">{{ team }}</option>

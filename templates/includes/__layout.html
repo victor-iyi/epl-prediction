@@ -2,26 +2,29 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>EPL Match Predictor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>EPL Match Predictor</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 </head>
 
 <body>
+  <div class="page-container">
+    <h3 class="page-title">English Premier League Prediction</h3>
+
     <section class="container ">
-        {% block body %} {% endblock %}
+      {% block body %} {% endblock %}
     </section>
-    <div class="credits">
-        Created with love by <a href="#">victor</a> & <a href="#">tomiiide</a>
-    </div>
 
-    </div>
+    <footer class="credits">
+      Created with love by <a href="#">victor</a> & <a href="#">tomiiide</a>
+    </footer>
+  </div>
 
-    <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/base.js') }}"></script>
 </body>
 
 </html>
