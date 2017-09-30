@@ -199,5 +199,4 @@ Temporary Items
 #!.vscode/launch.json
 #!.vscode/extensions.json
 
-### Dataset
-.sass-cache
+\.sass-cache/

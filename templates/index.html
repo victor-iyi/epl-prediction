@@ -18,7 +18,7 @@
       </select>
     </div>
 
-    <button @click.prevent="predict">Predict</button>
+  <button @click.prevent="predict">Predict</button>
 </div>
 
 <div class="modal" v-bind:class="{open:result.length>0}">
@@ -31,6 +31,10 @@
             <h1 v-bind:class="{win : result === 'H' || 'A' }" v-text="winnerletter"></h1>
         </div>
     </div>
+    <div class="body">
+      <h1 class="win">W</h1>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
