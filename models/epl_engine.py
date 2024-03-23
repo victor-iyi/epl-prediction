@@ -1,34 +1,45 @@
 import os.path
 import pickle
 import time
-
-SAVE_DIR = 'trained'
-if not os.path.isdir(SAVE_DIR):
-    os.makedirs(SAVE_DIR)
+from typing import Any
+import numpy as np
 
 
-def train(clf, X_train, y_train):
+SAVE_DIR = 'models/trained'
+os.makedirs(SAVE_DIR, exist_ok=True)
+
+
+def train(clf: Any, X_train: np.ndarray, y_train: np.ndarray) -> Any:
     start = time.time()
     clf.fit(X_train, y_train)
     print('Training took {:.04f}secs'.format(time.time() - start))
     return clf
 
 
-def test(clf, X_test, y_test):
+def test(clf: Any, X_test: np.ndarray, y_test: np.ndarray) -> float:
     accuracy = clf.score(X_test, y_test)
     return accuracy
 
 
-def predict(clf, X):
+def predict(clf, X: tuple[np.ndarray, np.ndarray]) -> np.ndarray:
     return clf.predict(X)
 
 
-def train_predict(clf, X_train, y_train, X):
+def train_predict(
+    clf: Any,
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X: tuple[np.ndarray, np.ndarray],
+):
     train(clf, X_train, y_train)
     return predict(clf, X)
 
 
-def save_classifier(clf, filename=None, force=False):
+def save_classifier(
+    clf: Any,
+    filename: str | None = None,
+    force: bool = False
+) -> None:
     if not filename:
         model_name = str(clf)
         filename = model_name[:model_name.index('(')]
@@ -37,12 +48,12 @@ def save_classifier(clf, filename=None, force=False):
         f = open(filename, 'wb')
         pickle.dump(clf, f)
         f.close()
-        print('Successfully saved!')
+        print(f'Successfully saved to {filename}!')
     else:
         raise (Exception('File already exist!'))
 
 
-def main():
+def main() -> None:
     from sklearn.ensemble import AdaBoostClassifier
     from .preprocess import process, process_to_features
 
@@ -50,7 +61,9 @@ def main():
     home_team = 'arsenal'
     away_team = 'stoke'
 
-    X_train, X_test, y_train, y_test = process(filename=None, test_size=0.1, save_csv=True)
+    X_train, X_test, y_train, y_test = process(
+        filename=None, test_size=0.1, save_csv=True
+    )
     pred_features = process_to_features(home=home_team, away=away_team)
 
     print('Training: ', X_train.shape, y_train.shape)

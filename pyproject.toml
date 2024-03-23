@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "epl-prediction"
+version = "0.2.0"
+description = "Predict the outcome of an English Premier Leauge match"
+authors = ["Victor I. Afolabi <javafolabi@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^3.0.2"
+numpy = "^1.26.4"
+pandas = "^2.2.1"
+scikit-learn = "^1.4.1.post1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

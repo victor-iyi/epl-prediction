@@ -16,14 +16,14 @@ from sklearn.model_selection import train_test_split
 warnings.filterwarnings('ignore')
 
 # !- constants
-DATASET_DIR = 'datasets/'
-SAVE_CSV_PATH = os.path.join(DATASET_DIR, 'combined/epl-no-labels.csv')
-DATA_FILES = glob(os.path.join(DATASET_DIR, '*.csv'))
-CURR_SEASON_FILE = DATA_FILES[-1]
-USELESS_ROWS = ['Div', 'Date', 'Referee']
+DATASET_DIR: str = 'datasets/'
+SAVE_CSV_PATH: str = os.path.join(DATASET_DIR, 'combined/epl-no-labels.csv')
+DATA_FILES: list[str] = glob(os.path.join(DATASET_DIR, '*.csv'))
+CURR_SEASON_FILE: str = DATA_FILES[-1]
+USELESS_ROWS: list[str] = ['Div', 'Date', 'Referee']
 
 
-def load_data(filename=None):
+def load_data(filename: str | None = None) -> pd.DataFrame:
     if filename:
         data = pd.read_csv(filename)
         data.drop(USELESS_ROWS, axis=1, inplace=True)
@@ -38,13 +38,13 @@ def load_data(filename=None):
     return datasets
 
 
-def get_all_teams():
+def get_all_teams() -> list[str]:
     df = load_data()
     all_teams = df['HomeTeam'].values.tolist() + df['AwayTeam'].values.tolist()
     return sorted(list(set(all_teams)))
 
 
-def process_to_features(home, away):
+def process_to_features(home: str, away: str) -> tuple[np.ndarray, np.ndarray]:
     df = load_data()
     df.drop(['FTR'], axis=1, inplace=True)
     # !- Home team and Away team
@@ -62,13 +62,13 @@ def process_to_features(home, away):
     return np.average(home_data, axis=0), np.average(away_data, axis=0)
 
 
-def get_index(teams, value):
+def get_index(teams: list[str], value: str) -> list[int]:
     value = value.title()
     indexes = [i for i, team in enumerate(teams) if team == value]
     return indexes
 
 
-def handle_non_numeric(df):
+def handle_non_numeric(df: pd.DataFrame) -> pd.DataFrame:
     """
     Processes a dataframe in order to handle for non-numeric data
 
@@ -96,7 +96,12 @@ def handle_non_numeric(df):
     return df
 
 
-def process(filename=None, test_size=None, train_size=None, save_csv=False):
+def process(
+    filename: str | None = None,
+    test_size: float | None = None,
+        train_size: float | None = None,
+    save_csv: bool = False
+) -> tuple[np.ndarray, ...]:
     """
     Process data into training and testing set.
 
@@ -125,18 +130,21 @@ def process(filename=None, test_size=None, train_size=None, save_csv=False):
     y_all = data['FTR']
     # !- Clean out non numeric data
     X_all = handle_non_numeric(X_all)
-    X_all.fillna(0, inplace=True)  # because the model is seeing some NaN values
+    # because the model is seeing some NaN values
+    X_all.fillna(0, inplace=True)
     # !- Save processed data to csv
     if save_csv:
         X_all.to_csv(SAVE_CSV_PATH)
-    X_train, X_test, y_train, y_test = train_test_split(X_all, y_all,
-                                                        test_size=test_size, train_size=train_size,
-                                                        random_state=42, stratify=y_all)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_all, y_all,
+        test_size=test_size, train_size=train_size,
+        random_state=42, stratify=y_all
+    )
     # !- Split into training and testing data
     return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
 
 
-def main():
+def main() -> None:
     # X_train, X_test, y_train, y_test = process(filename=None, save_csv=False)
     # print(X_train.shape, y_train.shape)
     # print(X_test.shape, y_test.shape)
